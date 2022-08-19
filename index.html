@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link 
+        rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+        crossorigin="anonymous" />
+</head>
+<body>
+    <div class="container">
+
+        <center>
+            <h1 id="movie-title"></h1>
+            <ul id="movie-listview" class="list-inline"></ul>
+            <!-- <video width="320" height="240" controls>
+                <source src="https://ok.ru/videoembed/3327549966926" type="video/mp4">
+                <source src="https://ok.ru/videoembed/3327549966926" type="video/ogg">
+                Your browser does not support the video tag.
+            </video> -->
+        </center>
+
+    </div>
+    
+
+    <!-- <script
+        src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+        crossorigin="anonymous"></script> -->
+
+    <script 
+        src="https://code.jquery.com/jquery-2.2.4.min.js" 
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
+        crossorigin="anonymous"></script>
+
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" 
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"></script>
+
+    <script type="application/javascript">
+
+        $(document).ready(function () {
+
+            /**
+            $.ajax({
+                dataType: 'json',
+                url: './cypress/fixtures/state.json',
+                // data: data,
+                success: (res) => {
+                    console.log(res);
+                }
+            });
+            */
+
+            $.getJSON('./cypress/fixtures/state.json', function (data) {
+                console.log(data);
+                const $list = $('#movie-listview');
+                $list.html('');
+                _.map(data.video, (item, index) => {
+                    
+                    const link = (item.indexOf('?') !== -1 ? item.split('?')[0] : item).trim();
+                    console.log({ item, link });
+                    const title = `${data.name} ${++index}`;
+                    // width="885" height="498"
+                    const video = $(`
+                        <li class="list-inline-item">
+                            <h1 class="display-4">${title}</h1>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="${link}" />
+                            </div>
+                        </li>
+                    `);
+                    $list.append(video);
+                });
+            });
+        });
+
+    </script>
+
+</body>
+</html>
